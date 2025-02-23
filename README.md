@@ -1,3 +1,3 @@
 # Trying-to-make-API
 
-<image src="Rest-API.png" Alt="">
+<img src="Rest-API.png" Alt="">
