@@ -1,18 +1,12 @@
 using System;
 
-class ColsultaMongo {
-    public int Id;
-
-    ColsultaMongo(int id) {
-        Id = id;
-    }
-
-      public static void Consulta(String[] args) {
-        Console.WriteLine("Hello World!");
-    }
-
+namespace MyApp
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+        }
+    }
 }
-
-//classe main com helloword
-
-  
