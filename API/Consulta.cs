@@ -1,12 +1,13 @@
-using System;
-
-namespace MyApp
+public class Consulta
 {
-    internal class Program
+    public double AlturaMax { get; set; }
+    public double AlturaMin { get; set; }
+    public string Hexid { get; set; }
+
+    public Consulta(double alturaMax, double alturaMin, string hexid)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
-    }
+        AlturaMax = alturaMax;
+        AlturaMin = alturaMin;
+        Hexid = hexid;
+    }
 }

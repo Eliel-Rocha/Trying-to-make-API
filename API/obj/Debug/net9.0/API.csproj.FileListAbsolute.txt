@@ -32,3 +32,10 @@ C:\API\Trying-to-make-API-1\API\obj\Debug\net9.0\refint\API.dll
 C:\API\Trying-to-make-API-1\API\obj\Debug\net9.0\API.pdb
 C:\API\Trying-to-make-API-1\API\obj\Debug\net9.0\API.genruntimeconfig.cache
 C:\API\Trying-to-make-API-1\API\obj\Debug\net9.0\ref\API.dll
+C:\API\Trying-to-make-API-1\API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\API\Trying-to-make-API-1\API\bin\Debug\net9.0\DnsClient.dll
+C:\API\Trying-to-make-API-1\API\bin\Debug\net9.0\MongoDB.Bson.dll
+C:\API\Trying-to-make-API-1\API\bin\Debug\net9.0\MongoDB.Driver.dll
+C:\API\Trying-to-make-API-1\API\bin\Debug\net9.0\SharpCompress.dll
+C:\API\Trying-to-make-API-1\API\bin\Debug\net9.0\Snappier.dll
+C:\API\Trying-to-make-API-1\API\bin\Debug\net9.0\ZstdSharp.dll
