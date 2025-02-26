@@ -1,13 +1,23 @@
-using MongoDB.Driver;
-using MongoDB.Bson;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using System.Collections.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Configurar serviços personalizados
-// builder.Services.Add<SeuServico>();
+builder.Services.AddSingleton<MongoDBService>();
+
+// Configurar o Kestrel diretamente no código
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenLocalhost(5000); // Porta HTTP
+    serverOptions.ListenLocalhost(5001, listenOptions =>
+    {
+        listenOptions.UseHttps(); // Porta HTTPS
+    });
+});
 
 var app = builder.Build();
 
@@ -17,13 +27,20 @@ app.UseHttpsRedirection();
 // Mapear endpoints personalizados
 app.MapGet("/", () => "Hello World!");
 
-app.MapGet("/consulta", () =>
+app.MapGet("/consulta", async (MongoDBService mongoDBService) =>
 {
-    Consulta consulta = new Consulta(1000, 500, "c0173a");
-    consulta.ConsultarRetornar();
+    var consulta = new Consulta(1000, 500, "c0173a"); // Defina os valores conforme necessário
+    var dados = await mongoDBService.ConsultarRetornarAsync(consulta.Hexid);
+
+    if (dados != null)
+    {
+        return Results.Json(dados);
+    }
+    else
+    {
+        return Results.NotFound(new { message = "Dados não encontrados" });
+    }
 
 });
 
 app.Run();
-
-//API de consulta ao mongoDB Atlas
