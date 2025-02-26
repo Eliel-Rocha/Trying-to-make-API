@@ -80,11 +80,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/eliel/Documentos/testerapido/API/API.csproj",
+      "projectUniqueName": "/home/eliel/Documentos/Trying-to-make-API/API/API.csproj",
       "projectName": "API",
-      "projectPath": "/home/eliel/Documentos/testerapido/API/API.csproj",
+      "projectPath": "/home/eliel/Documentos/Trying-to-make-API/API/API.csproj",
       "packagesPath": "/home/eliel/.nuget/packages/",
-      "outputPath": "/home/eliel/Documentos/testerapido/API/obj/",
+      "outputPath": "/home/eliel/Documentos/Trying-to-make-API/API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/eliel/.nuget/NuGet/NuGet.Config"
@@ -93,7 +93,6 @@
         "net9.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -134,6 +133,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.2, 9.0.2]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -142,7 +147,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.103/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
