@@ -1,44 +1,29 @@
+using MongoDB.Driver;
+using MongoDB.Bson;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine("Hello World!");
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Configurar serviços personalizados
+// builder.Services.Add<SeuServico>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
+// Configurar middleware personalizado
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// Mapear endpoints personalizados
+app.MapGet("/", () => "Hello World!");
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/consulta", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    Consulta consulta = new Consulta(1000, 500, "c0173a");
+    consulta.ConsultarRetornar();
+
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-
-
-
+//API de consulta ao mongoDB Atlas
