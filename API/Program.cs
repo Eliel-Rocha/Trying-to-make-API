@@ -1,23 +1,20 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
-using System.Collections.Generic;
+using MongoDB.Bson;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar serviços personalizados
-builder.Services.AddSingleton<MongoDBService>();
-
-// Configurar o Kestrel diretamente no código
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
+    //Dependendo do usuÃ¡rio serÃ¡ necessÃ¡rio mudar os parametros
     serverOptions.ListenLocalhost(5000); // Porta HTTP
-    serverOptions.ListenLocalhost(5001, listenOptions =>
+    serverOptions.ListenLocalhost(6000, listenOptions =>
     {
         listenOptions.UseHttps(); // Porta HTTPS
     });
 });
+
+// Configurar serviÃ§os personalizados
+// builder.Services.Add<SeuServico>();
 
 var app = builder.Build();
 
@@ -27,20 +24,9 @@ app.UseHttpsRedirection();
 // Mapear endpoints personalizados
 app.MapGet("/", () => "Hello World!");
 
-app.MapGet("/consulta", async (MongoDBService mongoDBService) =>
-{
-    var consulta = new Consulta(1000, 500, "c0173a"); // Defina os valores conforme necessário
-    var dados = await mongoDBService.ConsultarRetornarAsync(consulta.Hexid);
+app.MapGet("/teste1SSs", () => "teste 1");
 
-    if (dados != null)
-    {
-        return Results.Json(dados);
-    }
-    else
-    {
-        return Results.NotFound(new { message = "Dados não encontrados" });
-    }
-
-});
+Consulta consulta = new Consulta(1000, 500, "a1b2c3");
+consulta.ConectarMongoDB();
 
 app.Run();
