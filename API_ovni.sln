@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_ovni", "API_ovni\API_ovni.csproj", "{931E7190-A009-4024-92D9-CBBF337BD610}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{931E7190-A009-4024-92D9-CBBF337BD610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{931E7190-A009-4024-92D9-CBBF337BD610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{931E7190-A009-4024-92D9-CBBF337BD610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{931E7190-A009-4024-92D9-CBBF337BD610}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57C4DDAB-2EDA-49C8-BC65-7C6C60B464EB}
+	EndGlobalSection
+EndGlobal

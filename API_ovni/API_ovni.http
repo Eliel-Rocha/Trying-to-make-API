@@ -1,0 +1,6 @@
+@API_ovni_HostAddress = http://localhost:5206
+
+GET {{API_ovni_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
