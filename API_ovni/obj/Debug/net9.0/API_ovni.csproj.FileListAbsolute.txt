@@ -48,3 +48,4 @@ C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\ZstdSharp.dll
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\runtimes\linux\native\libmongocrypt.so
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\runtimes\osx\native\libmongocrypt.dylib
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\runtimes\win\native\mongocrypt.dll
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.sourcelink.json

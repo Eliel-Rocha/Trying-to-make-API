@@ -33,4 +33,18 @@ public class OvniData
 
     [BsonElement("speed")]
     public int Speed { get; set; }
+
+    [BsonElement("Origem")]
+    public String Origem { get; set; }
+
+    [BsonElement("Destino")]
+    public String Destino { get; set; }
+
+    [BsonElement("data")]
+    [BsonDateTimeOptions(Kind = DateTimeKind.Local, DateOnly = true)]
+    public DateTime Data { get; set; }
+
+    [BsonElement("Companhia Aerea")]
+    public String CompanhiaAerea { get; set; }
 }
+//Adicionar Parametros pendentes do ADS-B
