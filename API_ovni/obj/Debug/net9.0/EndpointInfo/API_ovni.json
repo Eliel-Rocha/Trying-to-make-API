@@ -1,77 +1,10 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "API_ovni",
     "version": "1.0"
   },
   "paths": {
-    "/api/OvniData": {
-      "get": {
-        "tags": [
-          "OvniData"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "OvniData"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OvniData"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OvniData"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/OvniData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/OvniData/{id}": {
       "get": {
         "tags": [
@@ -111,72 +44,9 @@
             }
           }
         }
-      },
-      "put": {
-        "tags": [
-          "OvniData"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "maxLength": 24,
-              "minLength": 24,
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OvniData"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OvniData"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/OvniData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "OvniData"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "maxLength": 24,
-              "minLength": 24,
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
-    "/api/OvniData/Data": {
+    "/api/OvniData/DataPorPeriodo": {
       "get": {
         "tags": [
           "OvniData"
@@ -191,147 +61,6 @@
           },
           {
             "name": "dataFim",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/OvniData/Companhia Aerea": {
-      "get": {
-        "tags": [
-          "OvniData"
-        ],
-        "parameters": [
-          {
-            "name": "companhia",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/OvniData/Origem": {
-      "get": {
-        "tags": [
-          "OvniData"
-        ],
-        "parameters": [
-          {
-            "name": "origem",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/OvniData/Destino": {
-      "get": {
-        "tags": [
-          "OvniData"
-        ],
-        "parameters": [
-          {
-            "name": "destino",
             "in": "query",
             "schema": {
               "type": "string"
@@ -426,6 +155,18 @@
           }
         }
       }
+    },
+    "/api/OvniData/raw": {
+      "get": {
+        "tags": [
+          "OvniData"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -443,7 +184,8 @@
           },
           "squawk": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "flight": {
             "type": "string",
@@ -451,41 +193,35 @@
           },
           "lat": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "lon": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "altitude": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "vertRate": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "track": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "speed": {
             "type": "integer",
-            "format": "int32"
-          },
-          "origem": {
-            "type": "string",
-            "nullable": true
-          },
-          "destino": {
-            "type": "string",
+            "format": "int32",
             "nullable": true
           },
           "data": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "companhiaAerea": {
             "type": "string",
             "nullable": true
           }

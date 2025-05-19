@@ -6,11 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 // Add MongoDB service
+
 builder.Services.AddSingleton<IMongoClient>(s =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("MongoDbConnection");
+    var connectionString = builder.Configuration.GetConnectionString("MongoDb");
     return new MongoClient(connectionString);
 });
+
 builder.Services.AddSingleton<MongodbService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

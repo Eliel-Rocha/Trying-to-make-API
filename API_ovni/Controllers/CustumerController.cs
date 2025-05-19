@@ -3,31 +3,38 @@ using API_ovni.Data;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Globalization;
+using System.Net.Http;
 
 namespace API_ovni.Controllers
 {
+
+    // API_ovni.Controllers: Responsável por controlar os endpoints da API,
+    // processar as requisições HTTP e interagir com o banco de dados MongoDB
+    // para fornecer, buscar ou manipular dados conforme as operações solicitadas.
+
+
+
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class OvniDataController : ControllerBase
     {
         private readonly IMongoCollection<OvniData> _ovniDataCollection;
 
+
+        /*Construtor: 
+         * Recebe o serviço de acesso ao MongoDB e inicializa a coleção para operações.*/
         public OvniDataController(MongodbService mongodbService)
         {
-            _ovniDataCollection = mongodbService.Database?.GetCollection<OvniData>("testepy");//colection do banco
+            _ovniDataCollection = mongodbService.Database?.GetCollection<OvniData>("testepy"); //caso precise mudar a coleção ("Nome_Sua_coleção")
+
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<OvniData>> Get()
-        {
-            return await _ovniDataCollection.Find(FilterDefinition<OvniData>.Empty).ToListAsync();
-        }
+        
 
-
-
-
-
-        //pesquisar por id
+        //pesquisar por id: filtro para o campo ID criado automaticamente pelo mongodb
+        /*retorna o documento enontrado ou se não NotFound()*/
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<OvniData?>> GetById(string id)
@@ -38,18 +45,19 @@ namespace API_ovni.Controllers
         }
 
         //pesquisa de range de Periodo ---> dia/mes/ano)
-        [HttpGet("Data")]
-        public async Task<ActionResult<IEnumerable<OvniData>>> GetByDate([FromQuery] string dataInicio, [FromQuery] string dataFim)
+        [HttpGet("DataPorPeriodo")]
+        public async Task<ActionResult<IEnumerable<OvniData>>> GetByPeriod(
+            [FromQuery] string dataInicio, // Ex: "2025-05-10"
+            [FromQuery] string dataFim     // Ex: "2025-05-14"
+)
         {
-            if (!DateTime.TryParseExact(dataInicio, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataInicioParsed) ||
-                !DateTime.TryParseExact(dataFim, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataFimParsed))
-            {
-                return BadRequest("Datas devem estar no formato dd/MM/yyyy");
-            }
+            // Monta as string completas para o início e fim do período,concertar depois em, usa o datatime .-.
+            string dataInicioStr = $"{dataInicio} 00:00:00";
+            string dataFimStr = $"{dataFim} 23:59:59";
 
             var filter = Builders<OvniData>.Filter.And(
-                Builders<OvniData>.Filter.Gte(x => x.Data, dataInicioParsed),
-                Builders<OvniData>.Filter.Lte(x => x.Data, dataFimParsed)
+                Builders<OvniData>.Filter.Gte(x => x.Data, dataInicioStr),
+                Builders<OvniData>.Filter.Lte(x => x.Data, dataFimStr)
             );
             var result = await _ovniDataCollection.Find(filter).ToListAsync();
             return Ok(result);
@@ -57,31 +65,8 @@ namespace API_ovni.Controllers
 
 
 
-        //pesquisa de Companhia aerea --->  pelo HexID ou Numero de serie
-        [HttpGet("Companhia Aerea")]
-        public async Task<IEnumerable<OvniData>> GetByCompanhia([FromQuery] string companhia)
-        {
-            var filter = Builders<OvniData>.Filter.Eq(x => x.CompanhiaAerea, companhia);
-            return await _ovniDataCollection.Find(filter).ToListAsync();
-        }
-        //pesquisa de Aeroportos -------->  Origem e destino
-        [HttpGet("Origem")]
-        public async Task<IEnumerable<OvniData>> GetByOrigem([FromQuery] string origem)
-        {
-            var filter = Builders<OvniData>.Filter.Eq(x => x.Origem, origem);
-            return await _ovniDataCollection.Find(filter).ToListAsync();
-        }
-        [HttpGet("Destino")]
-
-        public async Task<IEnumerable<OvniData>> GetByDestino([FromQuery] string destino)
-        {
-            var filter = Builders<OvniData>.Filter.Eq(x => x.Destino, destino);
-            return await _ovniDataCollection.Find(filter).ToListAsync();
-        }
-
-
         //pesquisar por range de altitude 
-        [HttpGet("range")]
+        /*[HttpGet("range")]
         public async Task<IEnumerable<OvniData>> GetByAltitudeRange([FromQuery] double alturaMin, [FromQuery] double alturaMax)
         {
             var filter = Builders<OvniData>.Filter.And(
@@ -90,57 +75,31 @@ namespace API_ovni.Controllers
             );
 
             return await _ovniDataCollection.Find(filter).ToListAsync();
-        }
+        }*/
 
-
-
-        //criar um novo objeto ----> adicionar no bancoMongoDbAtlas
-        [HttpPost]
-        public async Task<ActionResult> Create(OvniData ovniData)
+        /*[HttpGet("raw")]
+        public async Task<IActionResult> GetRaw()
         {
-         
-            
-            ovniData.Id = ObjectId.GenerateNewId().ToString();
-           
-
-            ovniData.Data = DateTime.Today.AddDays(-1); // Define a data atual
-
-            await _ovniDataCollection.InsertOneAsync(ovniData);
-            return CreatedAtAction(nameof(GetById), new { id = ovniData.Id.ToString() }, ovniData);
-        }
-
-        //atualizar um objeto
-        [HttpPut("{id:length(24)}")]
-        public async Task<ActionResult> Update(string id, OvniData ovniData)
-        {
-            var filter = Builders<OvniData>.Filter.Eq(x => x.Id, id);
-            var existingOvniData = await _ovniDataCollection.Find(filter).FirstOrDefaultAsync();
-
-            if (existingOvniData is null)
+            try
             {
-                return NotFound();
+                var documents = await _ovniDataCollection.Database
+                    .GetCollection<BsonDocument>("testepy")
+                    .Find(FilterDefinition<BsonDocument>.Empty)
+                    .ToListAsync();
+
+                if (!documents.Any())
+                {
+                    return Ok(new { Message = "Nenhum documento encontrado na coleção." });
+                }
+
+                var jsonDocuments = documents.Select(doc => BsonTypeMapper.MapToDotNetValue(doc));
+                return Ok(jsonDocuments);
             }
-
-            await _ovniDataCollection.ReplaceOneAsync(filter, ovniData);
-            return Ok();
-        }
-
-
-
-        [HttpDelete("{id:length(24)}")]
-        public async Task<ActionResult> Delete(string id)//deletar um objeto
-        {
-            var filter = Builders<OvniData>.Filter.Eq(x => x.Id, id);
-            var result = await _ovniDataCollection.DeleteOneAsync(filter);
-
-            if (result.DeletedCount == 0)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, $"Erro ao acessar a coleção: {ex.Message}");
             }
-
-            return Ok();
-        }
-
+        }*/
 
     }
 }
