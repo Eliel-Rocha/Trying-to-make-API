@@ -55,46 +55,5 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "API_ovni.Controllers.OvniDataController",
-    "Method": "GetByAltitudeRange",
-    "RelativePath": "api/OvniData/range",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "alturaMin",
-        "Type": "System.Double",
-        "IsRequired": false
-      },
-      {
-        "Name": "alturaMax",
-        "Type": "System.Double",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[OvniData, API_ovni, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "API_ovni.Controllers.OvniDataController",
-    "Method": "GetRaw",
-    "RelativePath": "api/OvniData/raw",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
   }
 ]

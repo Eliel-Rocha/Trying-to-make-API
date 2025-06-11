@@ -3,6 +3,20 @@ using API_ovni.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração explícita do Kestrel
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    // HTTPS (com certificado de desenvolvimento)
+    serverOptions.ListenAnyIP(7199, listenOptions =>
+    {
+        listenOptions.UseHttps(); // Usa o certificado padrão de desenvolvimento
+    });
+
+    // HTTP
+    serverOptions.ListenAnyIP(5206);
+});
+
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Add MongoDB service

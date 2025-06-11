@@ -3,8 +3,24 @@
   "WorkspaceRootPath": "C:\\Ovni\\API_ovni\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|c:\\ovni\\api_ovni\\api_ovni\\models\\ovnidata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|solutionrelative:api_ovni\\models\\ovnidata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|c:\\ovni\\api_ovni\\api_ovni\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|solutionrelative:api_ovni\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|c:\\ovni\\api_ovni\\api_ovni\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|solutionrelative:api_ovni\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|c:\\ovni\\api_ovni\\api_ovni\\controllers\\custumercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|solutionrelative:api_ovni\\controllers\\custumercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|c:\\ovni\\api_ovni\\api_ovni\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{931E7190-A009-4024-92D9-CBBF337BD610}|API_ovni\\API_ovni.csproj|solutionrelative:api_ovni\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,13 +42,64 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Ovni\\API_ovni\\API_ovni\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "API_ovni\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Ovni\\API_ovni\\API_ovni\\Properties\\launchSettings.json",
+              "RelativeToolTip": "API_ovni\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-20T20:25:11.554Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "OvniData.cs",
+              "DocumentMoniker": "C:\\Ovni\\API_ovni\\API_ovni\\Models\\OvniData.cs",
+              "RelativeDocumentMoniker": "API_ovni\\Models\\OvniData.cs",
+              "ToolTip": "C:\\Ovni\\API_ovni\\API_ovni\\Models\\OvniData.cs",
+              "RelativeToolTip": "API_ovni\\Models\\OvniData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T20:19:37.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustumerController.cs",
+              "DocumentMoniker": "C:\\Ovni\\API_ovni\\API_ovni\\Controllers\\CustumerController.cs",
+              "RelativeDocumentMoniker": "API_ovni\\Controllers\\CustumerController.cs",
+              "ToolTip": "C:\\Ovni\\API_ovni\\API_ovni\\Controllers\\CustumerController.cs",
+              "RelativeToolTip": "API_ovni\\Controllers\\CustumerController.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAMwDsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T20:06:39.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Ovni\\API_ovni\\API_ovni\\Entities\\Customer.cs",
+              "RelativeDocumentMoniker": "API_ovni\\Entities\\Customer.cs",
+              "ToolTip": "C:\\Ovni\\API_ovni\\API_ovni\\Entities\\Customer.cs",
+              "RelativeToolTip": "API_ovni\\Entities\\Customer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T20:04:46.814Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Ovni\\API_ovni\\API_ovni\\Program.cs",
               "RelativeDocumentMoniker": "API_ovni\\Program.cs",
               "ToolTip": "C:\\Ovni\\API_ovni\\API_ovni\\Program.cs",
               "RelativeToolTip": "API_ovni\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-19T18:56:38.835Z",
               "EditorCaption": ""

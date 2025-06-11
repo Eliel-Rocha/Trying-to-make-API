@@ -99,74 +99,6 @@
           }
         }
       }
-    },
-    "/api/OvniData/range": {
-      "get": {
-        "tags": [
-          "OvniData"
-        ],
-        "parameters": [
-          {
-            "name": "alturaMin",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "alturaMax",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OvniData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/OvniData/raw": {
-      "get": {
-        "tags": [
-          "OvniData"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": {
@@ -182,13 +114,43 @@
             "type": "string",
             "nullable": true
           },
+          "flight": {
+            "type": "string",
+            "nullable": true
+          },
+          "alt_baro": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "altGeom": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ground_Speed": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "indicated_Air_Speed": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "true_Air_Speed": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "squawk": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "flight": {
-            "type": "string",
+          "track": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "lat": {
@@ -201,24 +163,8 @@
             "format": "double",
             "nullable": true
           },
-          "altitude": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "vertRate": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "track": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "speed": {
-            "type": "integer",
-            "format": "int32",
+          "emergency": {
+            "type": "string",
             "nullable": true
           },
           "data": {

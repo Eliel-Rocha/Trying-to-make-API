@@ -14,8 +14,6 @@ namespace API_ovni.Controllers
 
 
 
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class OvniDataController : ControllerBase
@@ -30,8 +28,6 @@ namespace API_ovni.Controllers
             _ovniDataCollection = mongodbService.Database?.GetCollection<OvniData>("testepy"); //caso precise mudar a coleção ("Nome_Sua_coleção")
 
         }
-
-        
 
         //pesquisar por id: filtro para o campo ID criado automaticamente pelo mongodb
         /*retorna o documento enontrado ou se não NotFound()*/
@@ -62,44 +58,6 @@ namespace API_ovni.Controllers
             var result = await _ovniDataCollection.Find(filter).ToListAsync();
             return Ok(result);
         }
-
-
-
-        //pesquisar por range de altitude 
-        /*[HttpGet("range")]
-        public async Task<IEnumerable<OvniData>> GetByAltitudeRange([FromQuery] double alturaMin, [FromQuery] double alturaMax)
-        {
-            var filter = Builders<OvniData>.Filter.And(
-                Builders<OvniData>.Filter.Gte(x => x.Altitude, alturaMin),
-                Builders<OvniData>.Filter.Lte(x => x.Altitude, alturaMax)
-            );
-
-            return await _ovniDataCollection.Find(filter).ToListAsync();
-        }*/
-
-        /*[HttpGet("raw")]
-        public async Task<IActionResult> GetRaw()
-        {
-            try
-            {
-                var documents = await _ovniDataCollection.Database
-                    .GetCollection<BsonDocument>("testepy")
-                    .Find(FilterDefinition<BsonDocument>.Empty)
-                    .ToListAsync();
-
-                if (!documents.Any())
-                {
-                    return Ok(new { Message = "Nenhum documento encontrado na coleção." });
-                }
-
-                var jsonDocuments = documents.Select(doc => BsonTypeMapper.MapToDotNetValue(doc));
-                return Ok(jsonDocuments);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Erro ao acessar a coleção: {ex.Message}");
-            }
-        }*/
 
     }
 }

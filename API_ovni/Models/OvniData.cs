@@ -16,11 +16,29 @@ public class OvniData
     [BsonElement("hex_id")]
     public string HexId { get; set; }
 
-   [BsonElement("squawk")]
-    public int? Squawk { get; set; }
-
     [BsonElement("flight")]
     public string Flight { get; set; }
+
+    [BsonElement("alt_baro")]
+    public double? Alt_baro { get; set; }
+
+    [BsonElement("alt_geom")]
+    public double? AltGeom { get; set; }
+
+    [BsonElement("ground_speed")]
+    public double? Ground_Speed { get; set; }
+
+    [BsonElement("indicated_air_speed")]
+    public double? Indicated_Air_Speed { get; set; }
+
+    [BsonElement("true_air_speed")]
+    public double? True_Air_Speed { get; set; }
+
+    [BsonElement("squawk")]
+    public int? Squawk { get; set; }
+
+    [BsonElement("track")]
+    public double? Track { get; set; }
 
     [BsonElement("lat")]
     public double? Lat { get; set; }
@@ -28,20 +46,12 @@ public class OvniData
     [BsonElement("lon")]
     public double? Lon { get; set; }
 
-    [BsonElement("altitude")]
-    public double? Altitude { get; set; }
-
-    [BsonElement("vert_rate")]
-    public int? VertRate { get; set; }
-
-    [BsonElement("track")]
-    public double? Track { get; set; }
-
-    [BsonElement("speed")]
-    public int? Speed { get; set; }
+    [BsonElement("emergency")]
+    public string? emergency { get; set; }
 
     [BsonElement("datetime")]
     public string Data { get; set; }
+
 
 
 
