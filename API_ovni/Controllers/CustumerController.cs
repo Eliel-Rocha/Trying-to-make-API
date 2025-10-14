@@ -40,14 +40,27 @@ namespace API_ovni.Controllers
             return ovniData is not null ? Ok(ovniData) : NotFound();
         }
 
+
         //pesquisa de range de Periodo ---> dia/mes/ano)
+        /// <summary>
+        /// Busca de dados dentro de um período específico.
+        /// </summary>
+        /// <param name="dataInicio">A data de início da busca (formato: yyyy-MM-dd).</param>
+        /// <param name="dataFim">A data de fim da busca (formato: yyyy-MM-dd).</param>
+        /// <returns>Uma lista de avistamentos encontrados no período.</returns>
+        /// <response code="200">Retorna a lista de avistamentos.</response>
+        /// <response code="400">Se o formato da data for inválido.</response>
         [HttpGet("DataPorPeriodo")]
+        [ProducesResponseType(StatusCodes.Status200OK)] // Informa o tipo de retorno para o status 200
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<OvniData>>> GetByPeriod(
+
+
             [FromQuery] string dataInicio, // Ex: "2025-05-10"
             [FromQuery] string dataFim     // Ex: "2025-05-14"
 )
         {
-            // Monta as string completas para o início e fim do período,concertar depois em, usa o datatime .-.
+            // Monta as string completas para o início e fim do período
             string dataInicioStr = $"{dataInicio} 00:00:00";
             string dataFimStr = $"{dataFim} 23:59:59";
 

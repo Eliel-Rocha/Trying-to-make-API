@@ -1,5 +1,6 @@
-using MongoDB.Driver;
+using System.Reflection;
 using API_ovni.Data;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,15 @@ builder.Services.AddSingleton<MongodbService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    // Usa Reflection para pegar o nome do arquivo XML gerado (ex: API_ovni.xml)
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+
+    // Diz ao Swashbuckle para incluir os comentários deste arquivo
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 

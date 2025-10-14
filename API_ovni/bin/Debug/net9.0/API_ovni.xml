@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API_ovni</name>
+    </assembly>
+    <members>
+        <member name="M:API_ovni.Controllers.OvniDataController.GetByPeriod(System.String,System.String)">
+            <summary>
+            Busca de dados dentro de um período específico.
+            </summary>
+            <param name="dataInicio">A data de início da busca (formato: yyyy-MM-dd).</param>
+            <param name="dataFim">A data de fim da busca (formato: yyyy-MM-dd).</param>
+            <returns>Uma lista de avistamentos encontrados no período.</returns>
+            <response code="200">Retorna a lista de avistamentos.</response>
+            <response code="400">Se o formato da data for inválido.</response>
+        </member>
+    </members>
+</doc>

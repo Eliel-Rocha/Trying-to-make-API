@@ -19,12 +19,6 @@ C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\scopedcss\bundle\API_ovni.styles.css
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.build.json
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.development.json
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets\msbuild.API_ovni.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets\msbuild.API_ovni.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets\msbuild.build.API_ovni.props
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.API_ovni.props
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.API_ovni.props
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.pack.json
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.csproj.Up2Date
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.dll
@@ -49,3 +43,10 @@ C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\runtimes\linux\native\libmongocrypt.s
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\runtimes\osx\native\libmongocrypt.dylib
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\runtimes\win\native\mongocrypt.dll
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.sourcelink.json
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\API_ovni.xml
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.xml
