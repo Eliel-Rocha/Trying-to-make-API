@@ -14,7 +14,7 @@ namespace API_ovni.Data
         {
             var connectionString = configuration.GetConnectionString("MongoDb"); //esta é a string de conexão, é definida no appsettings.json
             var client = new MongoClient(connectionString);
-            Database = client.GetDatabase("minhaBase"); //("minhaBase") nome referente ao banco utilizado no MongodbAltas,caso seja outr apenas mude: ("Nome_do_Banco")
+            Database = client.GetDatabase("aviao"); //("minhaBase") nome referente ao banco utilizado no MongodbAltas,caso seja outr apenas mude: ("Nome_do_Banco")
         }
     }
 }   

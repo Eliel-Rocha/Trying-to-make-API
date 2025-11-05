@@ -64,5 +64,21 @@
         "StatusCode": 400
       }
     ]
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.OvniDataController",
+    "Method": "InsertBatch",
+    "RelativePath": "api/OvniData/InserirDocumento",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newOvniDataList",
+        "Type": "System.Collections.Generic.List\u00601[[OvniData, API_ovni, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

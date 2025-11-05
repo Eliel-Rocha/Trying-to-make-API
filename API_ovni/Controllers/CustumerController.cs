@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Globalization;
 using System.Net.Http;
+using API_ovni.Services;
 
 namespace API_ovni.Controllers
 {
@@ -20,14 +21,16 @@ namespace API_ovni.Controllers
     {
         private readonly IMongoCollection<OvniData> _ovniDataCollection;
 
-
-        /*Construtor: 
+        private readonly LimpezaArmazenamentoService _limpezaArmazenamentoService;        /*Construtor: 
          * Recebe o serviço de acesso ao MongoDB e inicializa a coleção para operações.*/
-        public OvniDataController(MongodbService mongodbService)
+        public OvniDataController(
+            IMongoCollection<OvniData> ovniDataCollection,
+            LimpezaArmazenamentoService limpezaArmazenamentoService)
         {
-            _ovniDataCollection = mongodbService.Database?.GetCollection<OvniData>("testepy"); //caso precise mudar a coleção ("Nome_Sua_coleção")
-
+            _ovniDataCollection = ovniDataCollection;
+            _limpezaArmazenamentoService = limpezaArmazenamentoService;
         }
+
 
         //pesquisar por id: filtro para o campo ID criado automaticamente pelo mongodb
         /*retorna o documento enontrado ou se não NotFound()*/
@@ -60,16 +63,56 @@ namespace API_ovni.Controllers
             [FromQuery] string dataFim     // Ex: "2025-05-14"
 )
         {
-            // Monta as string completas para o início e fim do período
-            string dataInicioStr = $"{dataInicio} 00:00:00";
-            string dataFimStr = $"{dataFim} 23:59:59";
+            if (!DateTime.TryParseExact(dataInicio, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtInicio))
+            {
+                return BadRequest("Formato de dataInicio inválido. Use yyyy-MM-dd.");
+            }
 
+            if (!DateTime.TryParseExact(dataFim, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtFim))
+            {
+                return BadRequest("Formato de dataFim inválido. Use yyyy-MM-dd.");
+            }
+
+            DateTime dtFimFinal = dtFim.AddDays(1);
+
+            // Agora o filtro compara DateTime (x.Data) com DateTime (dtInicio/dtFimFinal)
             var filter = Builders<OvniData>.Filter.And(
-                Builders<OvniData>.Filter.Gte(x => x.Data, dataInicioStr),
-                Builders<OvniData>.Filter.Lte(x => x.Data, dataFimStr)
+                Builders<OvniData>.Filter.Gte(x => x.Data, dtInicio),
+                Builders<OvniData>.Filter.Lt(x => x.Data, dtFimFinal)
             );
+
             var result = await _ovniDataCollection.Find(filter).ToListAsync();
             return Ok(result);
+        }
+
+
+
+        //API para inserção de documentos em lote
+        //recebe uma lista de objetos OvniData no corpo da requisição e insere todos na coleção MongoDB.
+
+        [HttpPost("InserirDocumento")]
+        public async Task<ActionResult> InsertBatch([FromBody] List<OvniData> newOvniDataList)
+        {
+            if (newOvniDataList == null || !newOvniDataList.Any())
+                return BadRequest("A lista de documentos não pode ser nula ou vazia.");
+
+            try
+            {
+                Console.WriteLine("Verificando necessidade de limpeza...");
+                await _limpezaArmazenamentoService.Limpar(newOvniDataList.Count);
+                // Aguarda a limpeza antes de inserir novos documentos
+
+                Console.WriteLine("Inserindo documentos...");
+                await _ovniDataCollection.InsertManyAsync(newOvniDataList);
+                Console.WriteLine("Inserção concluída com sucesso.");
+
+                return Ok(new { message = $"{newOvniDataList.Count} documentos inseridos com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao inserir documentos: {ex}");
+                return StatusCode(500, $"Erro interno ao processar a requisição: {ex.Message}");
+            }
         }
 
     }

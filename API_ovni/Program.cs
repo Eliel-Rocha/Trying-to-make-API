@@ -1,6 +1,7 @@
 using System.Reflection;
 using API_ovni.Data;
 using MongoDB.Driver;
+using API_ovni.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,18 +21,43 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Add MongoDB service
 
+// Add MongoDB service
 builder.Services.AddSingleton<IMongoClient>(s =>
 {
     var connectionString = builder.Configuration.GetConnectionString("MongoDb");
     return new MongoClient(connectionString);
 });
 
-builder.Services.AddSingleton<MongodbService>();
+// Registra o Banco de Dados
+builder.Services.AddSingleton<IMongoDatabase>(s =>
+{
+    var client = s.GetRequiredService<IMongoClient>();
+    var databaseName = builder.Configuration["DataBaseName"];
+    return client.GetDatabase(databaseName); // "aviao"
+});
+
+// 3. Registra as Coleções qde serviços 
+builder.Services.AddSingleton<IMongoCollection<OvniData>>(s =>
+{
+    var database = s.GetRequiredService<IMongoDatabase>();
+    return database.GetCollection<OvniData>("voos"); // Nome da coleção de dados
+});
+
+builder.Services.AddSingleton<IMongoCollection<ConfiguracaoLimpeza>>(s =>
+{
+    var database = s.GetRequiredService<IMongoDatabase>();
+    return database.GetCollection<ConfiguracaoLimpeza>("Configuracoes_Servidor");
+});
+
+
+builder.Services.AddScoped<LimpezaArmazenamentoService>(); //SERVIÇO DE LIMPEZA
+builder.Services.AddSingleton<MongodbService>(); // Registra o serviço original
+
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     // Usa Reflection para pegar o nome do arquivo XML gerado (ex: API_ovni.xml)

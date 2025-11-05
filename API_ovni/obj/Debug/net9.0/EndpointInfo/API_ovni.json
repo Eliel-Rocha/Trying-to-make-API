@@ -122,6 +122,46 @@
           }
         }
       }
+    },
+    "/api/OvniData/InserirDocumento": {
+      "post": {
+        "tags": [
+          "OvniData"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OvniData"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OvniData"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OvniData"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -129,11 +169,11 @@
       "OvniData": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "nullable": true
           },
-          "hexId": {
+          "hex_id": {
             "type": "string",
             "nullable": true
           },
@@ -146,22 +186,22 @@
             "format": "double",
             "nullable": true
           },
-          "altGeom": {
+          "alt_geom": {
             "type": "number",
             "format": "double",
             "nullable": true
           },
-          "ground_Speed": {
+          "ground_speed": {
             "type": "number",
             "format": "double",
             "nullable": true
           },
-          "indicated_Air_Speed": {
+          "indicated_air_speed": {
             "type": "number",
             "format": "double",
             "nullable": true
           },
-          "true_Air_Speed": {
+          "true_air_speed": {
             "type": "number",
             "format": "double",
             "nullable": true
@@ -190,9 +230,9 @@
             "type": "string",
             "nullable": true
           },
-          "data": {
+          "datetime": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
           }
         },
         "additionalProperties": false
