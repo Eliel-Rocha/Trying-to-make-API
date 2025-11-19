@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Funcionalidades da API</title>
+    <script src="../js/app.js" defer></script>
+</head>
+<body>
+    <h1>Teste de Funcionalidades da API ADS-B</h1>
+    <p>Chave Mestra de Admin configurada em `appsettings.json`: <strong>ChaveParaTeste</strong></p>
+
+    <section>
+        <h2>0. Gerar Chave de Acesso Público (User)</h2>
+        <p>Endpoint: POST /KeyRequest/GenerateKey (Público)</p>
+        <label for="firstName">Nome:</label><input type="text" id="firstName" value="Usuario">
+        <label for="lastName">Sobrenome:</label><input type="text" id="lastName" value="Teste">
+        <label for="email">Email:</label><input type="email" id="email" value="user@teste.com">
+        <button onclick="generateUserKey()">Gerar Chave User</button>
+        <pre id="resultKeyRequest"></pre>
+        <p>Cole a chave gerada abaixo:</p>
+        <input type="text" id="generatedUserKey" placeholder="Chave User será exibida aqui." style="width: 80%;">
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>1. Testar Busca por Período (GET /OvniData/DataPorPeriodo)</h2>
+        <p>Acesso: ADMIN ou USER (Política UserCanRead)</p>
+        <label for="apiKeyRead">Chave API:</label>
+        <input type="text" id="apiKeyRead" value="ChaveParaTeste">
+        <button onclick="testReadData()">Buscar Dados (GET)</button>
+        <pre id="resultRead"></pre>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>2. Testar Inserção em Lote (POST /OvniData/InserirDocumento)</h2>
+        <p>Acesso: Apenas ADMIN (Política AdminOnly)</p>
+        <label for="apiKeyWrite">Chave API (Admin):</label>
+        <input type="text" id="apiKeyWrite" value="ChaveParaTeste">
+        <button onclick="testInsertBatch()">Inserir 2 Documentos (POST)</button>
+        <pre id="resultWrite"></pre>
+    </section>
+
+    <hr>
+    <section>
+        <h2>3. Gerenciar Configuração de Limpeza (/Admin/ConfiguracaoLimpeza)</h2>
+        <p>Acesso: Apenas ADMIN (Política AdminOnly)</p>
+
+        <label for="apiKeyConfig">Chave API (Admin):</label>
+        <input type="text" id="apiKeyConfig" value="ChaveParaTeste" style="width: 250px;">
+
+        <button onclick="getLimpezaConfig()">Buscar Configuração (GET)</button>
+
+        <h3>Atualizar Parâmetros</h3>
+        <label for="limiteBytes">Limite Máximo (Bytes):</label>
+        <input type="number" id="limiteBytes" value="10737418240" style="width: 150px;"> <label for="percentualAlvo">Meta Ocupação (0.1 a 1.0):</label>
+        <input type="number" id="percentualAlvo" value="0.75" step="0.01" style="width: 100px;">
+
+        <button onclick="updateLimpezaConfig()">Atualizar Configuração (POST/PUT)</button>
+        <button onclick="executeLimpeza()">Forçar Limpeza (POST)</button>
+
+        <pre id="resultConfig"></pre>
+    </section>
+</body>
+</html>

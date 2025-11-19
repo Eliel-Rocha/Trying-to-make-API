@@ -4,6 +4,29 @@
         <name>API_ovni</name>
     </assembly>
     <members>
+        <member name="M:API_ovni.Controllers.AdminController.GenerateUserKey(System.String,System.Boolean)">
+            <summary>
+            (ADMIN) Gera uma nova chave de API para um usuário e, opcionalmente, concede privilégios de Admin.
+            </summary>
+            <param name="ownerInfo">O nome do usuário/pesquisador.</param>
+            <param name="grantAdmin">Define se a chave deve ter privilégios de Admin (true) ou User (false) na criação.</param>
+        </member>
+        <member name="M:API_ovni.Controllers.AdminController.GetLimpezaConfig">
+            <summary>
+            (ADMIN) Obtém a configuração atual de limpeza para exibir na UI.
+            </summary>
+        </member>
+        <member name="M:API_ovni.Controllers.AdminController.UpdateLimpezaConfig(API_ovni.Controllers.ConfigUpdateDto)">
+            <summary>
+            (ADMIN) Atualiza os parâmetros de exclusão do banco de dados.
+            </summary>
+        </member>
+        <member name="M:API_ovni.Controllers.AdminController.ExecuteLimpeza">
+            <summary>
+            Força a limpeza do banco de dados removendo a quantidade de dados 
+            necessária para atingir a 'Meta de Ocupação' configurada.
+            </summary>
+        </member>
         <member name="M:API_ovni.Controllers.OvniDataController.GetByPeriod(System.String,System.String)">
             <summary>
             Busca de dados dentro de um período específico.
@@ -13,6 +36,11 @@
             <returns>Uma lista de avistamentos encontrados no período.</returns>
             <response code="200">Retorna a lista de avistamentos.</response>
             <response code="400">Se o formato da data for inválido.</response>
+        </member>
+        <member name="M:API_ovni.Controllers.KeyRequestController.GenerateKey(API_ovni.Models.ApiKeyRequest)">
+            <summary>
+            (PÚBLICO) Gera uma nova chave de API (somente leitura)
+            </summary>
         </member>
     </members>
 </doc>

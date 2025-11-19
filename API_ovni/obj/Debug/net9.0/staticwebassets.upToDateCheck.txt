@@ -1,0 +1,8 @@
+wwwroot\img\brasao-pucminas-2025_PRETO.png
+wwwroot\img\imgOvni.jpg
+wwwroot\css\style.css
+wwwroot\js\app.js
+wwwroot\html\index.html
+C:\Ovni\API_ovni\API_ovni\wwwroot\css\style.css
+C:\Ovni\API_ovni\API_ovni\wwwroot\js\app.js
+C:\Ovni\API_ovni\API_ovni\wwwroot\html\index.html

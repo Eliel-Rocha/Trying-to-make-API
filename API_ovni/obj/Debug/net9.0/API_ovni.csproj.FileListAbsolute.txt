@@ -50,3 +50,7 @@ C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\API_ovni.xml
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.xml
+C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\API_ovni.staticwebassets.runtime.json
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\qaet198vzv-3r8b2a0bt1.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\6aemu3w831-37vc682bwc.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\s3ihi3r58x-2k345u72k6.gz

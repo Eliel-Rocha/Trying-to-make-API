@@ -49,7 +49,7 @@ namespace API_ovni.Services
         /// 
         /// 1. BUSCA CONFIGURAÇÃO: 
         ///    Lê o documento "config_adsb" do banco para obter duas regras:
-        ///    - 'limiteMaximoBytes': O tamanho máximo (em bytes) que a coleção pode ter.
+        ///    - 'limiteMaximoBytes': O tamanho máximo (em bytes) que a coleção pode ter.*podendo mudar*
         ///    - 'percentualAlvoOcupacao': A meta de ocupação desejada após a limpeza (ex: 0.7 para 70%).
         /// 
         /// 2. VERIFICA O LIMITE:

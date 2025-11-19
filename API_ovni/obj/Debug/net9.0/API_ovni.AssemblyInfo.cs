@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API_ovni")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46add58d1f7398502b5232d09ed6c9a7b995787e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0183a11263d968075b7362355327b415e7103700")]
 [assembly: System.Reflection.AssemblyProductAttribute("API_ovni")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API_ovni")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

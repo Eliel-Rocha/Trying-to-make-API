@@ -1,21 +1,15 @@
 [
   {
-    "ContainingType": "API_ovni.Controllers.OvniDataController",
-    "Method": "GetById",
-    "RelativePath": "api/OvniData/{id}",
+    "ContainingType": "API_ovni.Controllers.AdminController",
+    "Method": "GetLimpezaConfig",
+    "RelativePath": "api/Admin/ConfiguracaoLimpeza",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "OvniData",
+        "Type": "ConfiguracaoLimpeza",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -24,6 +18,69 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.AdminController",
+    "Method": "UpdateLimpezaConfig",
+    "RelativePath": "api/Admin/ConfiguracaoLimpeza",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_ovni.Controllers.ConfigUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.AdminController",
+    "Method": "ExecuteLimpeza",
+    "RelativePath": "api/Admin/ExecutarLimpeza",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.AdminController",
+    "Method": "GenerateUserKey",
+    "RelativePath": "api/Admin/GerarChaveUsuario",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ownerInfo",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "grantAdmin",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.KeyRequestController",
+    "Method": "GenerateKey",
+    "RelativePath": "api/KeyRequest/GenerateKey",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "API_ovni.Models.ApiKeyRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "API_ovni.Controllers.OvniDataController",

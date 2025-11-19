@@ -5,43 +5,151 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/OvniData/{id}": {
-      "get": {
+    "/api/Admin/GerarChaveUsuario": {
+      "post": {
         "tags": [
-          "OvniData"
+          "Admin"
         ],
+        "summary": "(ADMIN) Gera uma nova chave de API para um usuário e, opcionalmente, concede privilégios de Admin.",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "grantAdmin",
+            "in": "query",
+            "description": "Define se a chave deve ter privilégios de Admin (true) ou User (false) na criação.",
             "schema": {
-              "maxLength": 24,
-              "minLength": 24,
-              "type": "string"
+              "type": "boolean",
+              "default": false
             }
           }
         ],
+        "requestBody": {
+          "description": "O nome do usuário/pesquisador.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/ConfiguracaoLimpeza": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "(ADMIN) Obtém a configuração atual de limpeza para exibir na UI.",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/OvniData"
+                  "$ref": "#/components/schemas/ConfiguracaoLimpeza"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OvniData"
+                  "$ref": "#/components/schemas/ConfiguracaoLimpeza"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OvniData"
+                  "$ref": "#/components/schemas/ConfiguracaoLimpeza"
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "(ADMIN) Atualiza os parâmetros de exclusão do banco de dados.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/ExecutarLimpeza": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Força a limpeza do banco de dados removendo a quantidade de dados \r\nnecessária para atingir a 'Meta de Ocupação' configurada.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/KeyRequest/GenerateKey": {
+      "post": {
+        "tags": [
+          "KeyRequest"
+        ],
+        "summary": "(PÚBLICO) Gera uma nova chave de API (somente leitura)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -166,6 +274,76 @@
   },
   "components": {
     "schemas": {
+      "ApiKeyRequest": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "usageDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfigUpdateDto": {
+        "required": [
+          "limiteMaximoBytes",
+          "percentualAlvoOcupacao"
+        ],
+        "type": "object",
+        "properties": {
+          "limiteMaximoBytes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "percentualAlvoOcupacao": {
+            "maximum": 1,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfiguracaoLimpeza": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "limiteMaximoBytes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "percentualAlvoOcupacao": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "OvniData": {
         "type": "object",
         "properties": {
@@ -264,6 +442,19 @@
         },
         "additionalProperties": { }
       }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "Chave de API para autorização (Admin ou Usuário)",
+        "name": "X-Api-Key",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "ApiKey": [ ]
+    }
+  ]
 }

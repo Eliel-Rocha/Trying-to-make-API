@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using API_ovni.Data;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net.Http;
+using API_ovni.Data;
 using API_ovni.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace API_ovni.Controllers
 {
@@ -17,11 +18,13 @@ namespace API_ovni.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OvniDataController : ControllerBase
     {
         private readonly IMongoCollection<OvniData> _ovniDataCollection;
 
-        private readonly LimpezaArmazenamentoService _limpezaArmazenamentoService;        /*Construtor: 
+        private readonly LimpezaArmazenamentoService _limpezaArmazenamentoService;        
+        /*Construtor: 
          * Recebe o serviço de acesso ao MongoDB e inicializa a coleção para operações.*/
         public OvniDataController(
             IMongoCollection<OvniData> ovniDataCollection,
@@ -30,19 +33,6 @@ namespace API_ovni.Controllers
             _ovniDataCollection = ovniDataCollection;
             _limpezaArmazenamentoService = limpezaArmazenamentoService;
         }
-
-
-        //pesquisar por id: filtro para o campo ID criado automaticamente pelo mongodb
-        /*retorna o documento enontrado ou se não NotFound()*/
-
-        [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<OvniData?>> GetById(string id)
-        {
-            var filter = Builders<OvniData>.Filter.Eq(x => x.Id, id);
-            var ovniData = await _ovniDataCollection.Find(filter).FirstOrDefaultAsync();
-            return ovniData is not null ? Ok(ovniData) : NotFound();
-        }
-
 
         //pesquisa de range de Periodo ---> dia/mes/ano)
         /// <summary>
@@ -56,6 +46,7 @@ namespace API_ovni.Controllers
         [HttpGet("DataPorPeriodo")]
         [ProducesResponseType(StatusCodes.Status200OK)] // Informa o tipo de retorno para o status 200
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Policy = "UserCanRead")]
         public async Task<ActionResult<IEnumerable<OvniData>>> GetByPeriod(
 
 
@@ -91,6 +82,7 @@ namespace API_ovni.Controllers
         //recebe uma lista de objetos OvniData no corpo da requisição e insere todos na coleção MongoDB.
 
         [HttpPost("InserirDocumento")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> InsertBatch([FromBody] List<OvniData> newOvniDataList)
         {
             if (newOvniDataList == null || !newOvniDataList.Any())
