@@ -4,6 +4,7 @@ using API_ovni.Models;
 using API_ovni.Security;
 using API_ovni.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,24 +13,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowMyFrontend",
         policy =>
         {
-            // Permite qualquer origem, cabeçalho e método
+            //em produção, especifique as origens permitidas
             policy.AllowAnyOrigin() 
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
-});
-
-// Configuração explícita do Kestrel
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    // HTTPS (com certificado de desenvolvimento)
-    serverOptions.ListenAnyIP(7199, listenOptions =>
-    {
-        listenOptions.UseHttps(); // Usa o certificado padrão de desenvolvimento
-    });
-
-    // HTTP
-    serverOptions.ListenAnyIP(5206);
 });
 
 
@@ -89,47 +77,62 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddScoped<LimpezaArmazenamentoService>(); //SERVIÇO DE LIMPEZA
 builder.Services.AddSingleton<MongodbService>(); // Registra o serviço original
+builder.Services.AddSingleton<ApiKeyService>();
+
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen(c =>
 {
-    
-
-    // Usa Reflection para pegar o nome do arquivo XML gerado (ex: API_ovni.xml)
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
-
-    options.AddSecurityDefinition("ApiKey", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Name = "X-Api-Key", // O nome do Header
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-        Description = "Chave de API para autorização (Admin ou Usuário)"
-    });
-
-    
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
+        Title = "API Ovni - Rastreamento ADS-B",
+        Version = "v1",
+        Description = "API para coleta e análise de dados de tráfego aéreo capturados via Raspberry Pi (ADS-B). Projeto Acadêmico.",
+        Contact = new OpenApiContact
         {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "ApiKey"
-                }
-            },
-            new string[] {}
+            Name = "Seu Nome",
+            Email = "seu.email@exemplo.com"
         }
     });
 
-    // Diz ao Swashbuckle para incluir os comentários deste arquivo
-    options.IncludeXmlComments(xmlPath);
-});
+    // Habilita os comentários XML
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
 
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Description = "Cabeçalho de autenticação usando API Key. Exemplo: 'X-Api-Key: 12345abcdef'",
+        Name = "X-Api-Key", 
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "ApiKeyScheme"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
+                },
+                Scheme = "oauth2",
+                Name = "ApiKey",
+                In = ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

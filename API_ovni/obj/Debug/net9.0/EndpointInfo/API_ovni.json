@@ -1,8 +1,13 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "API_ovni",
-    "version": "1.0"
+    "title": "API Ovni - Rastreamento ADS-B",
+    "description": "API para coleta e análise de dados de tráfego aéreo capturados via Raspberry Pi (ADS-B). Projeto Acadêmico.",
+    "contact": {
+      "name": "Seu Nome",
+      "email": "seu.email@exemplo.com"
+    },
+    "version": "v1"
   },
   "paths": {
     "/api/Admin/GerarChaveUsuario": {
@@ -446,7 +451,7 @@
     "securitySchemes": {
       "ApiKey": {
         "type": "apiKey",
-        "description": "Chave de API para autorização (Admin ou Usuário)",
+        "description": "Cabeçalho de autenticação usando API Key. Exemplo: 'X-Api-Key: 12345abcdef'",
         "name": "X-Api-Key",
         "in": "header"
       }

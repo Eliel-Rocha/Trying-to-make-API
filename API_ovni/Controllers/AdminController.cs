@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using API_ovni.Models;
 using API_ovni.Services;
@@ -18,15 +17,18 @@ namespace API_ovni.Controllers
         private readonly IMongoCollection<ApiKeyUser> _userCollection;
         private readonly IMongoCollection<ConfiguracaoLimpeza> _configCollection;// Coleção de configuração
         private readonly LimpezaArmazenamentoService _limpezaService;
+        private readonly ApiKeyService _apiKeyService;
 
         public AdminController(
             IMongoCollection<ApiKeyUser> userCollection,
             IMongoCollection<ConfiguracaoLimpeza> configCollection,
-            LimpezaArmazenamentoService limpezaService) // Injeta a coleção de Configuração
+            LimpezaArmazenamentoService limpezaService,
+            ApiKeyService apiKeyService)
         {
             _userCollection = userCollection;
             _configCollection = configCollection;
             _limpezaService = limpezaService;
+            _apiKeyService = apiKeyService;
         }
 
         // GERAÇÃO DE CHAVE E CONCESSÃO DE ADMIN 
@@ -51,20 +53,25 @@ namespace API_ovni.Controllers
             {
                 try
                 {
-                    var newKey = GenerateSecureApiKey();
+                    var newKey = _apiKeyService.GenerateSecureApiKey();
+
+                    // Hash
+                    var keyHash = _apiKeyService.HashApiKey(newKey);
 
                     var newUser = new ApiKeyUser
                     {
-                        ApiKey = newKey,
+                        //Salva o HASH, não a chave
+                        ApiKeyHash = keyHash,
                         Name = name,
                         Email = email,
                         CreatedAt = DateTime.UtcNow,
-                        IsAdmin = grantAdmin // Concede o AdminRole se o parâmetro for TRUE
+                        IsAdmin = grantAdmin
                     };
 
                     await _userCollection.InsertOneAsync(newUser);
 
                     string role = grantAdmin ? "Admin" : "User";
+
                     return Ok(new
                     {
                         message = $"Chave de {role} criada com sucesso.",
@@ -89,16 +96,6 @@ namespace API_ovni.Controllers
             return StatusCode(500, "Erro interno de lógica de chaves.");
         }
 
-        
-        private string GenerateSecureApiKey(int length = 32)
-        {
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                var bytes = new byte[length];
-                rng.GetBytes(bytes);
-                return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_");
-            }
-        }
 
         //GERENCIAMENTO DE CONFIGURAÇÃO DE LIMPEZA
 
@@ -162,7 +159,7 @@ namespace API_ovni.Controllers
         }
     }
 
-    
+
     // Este DTO é usado pelo endpoint UpdateLimpezaConfig para receber os dados do Frontend.
     public class ConfigUpdateDto
     {

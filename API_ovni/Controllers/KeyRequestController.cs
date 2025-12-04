@@ -1,22 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using API_ovni.Models;
+using API_ovni.Services; // Necessário para ApiKeyService
 
-//esta classe é o controller para operações públicas, como gerar chaves de API para usuários.
+// Esta classe é o controller para operações públicas, como gerar chaves de API para usuários entre outros.
 namespace API_ovni.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
-    public class KeyRequestController : ControllerBase // Endpoint público, sem [Authorize]
+    public class KeyRequestController : ControllerBase 
     {
         private readonly IMongoCollection<ApiKeyUser> _userCollection;
+        private readonly ApiKeyService _apiKeyService;
 
-        public KeyRequestController(IMongoCollection<ApiKeyUser> userCollection)
+        // CONSTRUTOR
+        public KeyRequestController(
+            IMongoCollection<ApiKeyUser> userCollection,
+            ApiKeyService apiKeyService)
         {
             _userCollection = userCollection;
+            _apiKeyService = apiKeyService; // Atribuição correta
         }
 
         /// <summary>
@@ -26,7 +31,7 @@ namespace API_ovni.Controllers
         public async Task<IActionResult> GenerateKey([FromBody] ApiKeyRequest request)
         {
             const int MaxRetries = 3;
-            int attempt = 0;
+            int attempt = 0;//contador de tentativas
             string newKey;
 
             var fullName = $"{request.FirstName} {request.LastName}";
@@ -36,25 +41,35 @@ namespace API_ovni.Controllers
             {
                 try
                 {
-                    newKey = GenerateSecureApiKey(); // 1. Gera a nova chave
-
+                    
+                    newKey = _apiKeyService.GenerateSecureApiKey();
+                    var keyHash = _apiKeyService.HashApiKey(newKey);
                     var newUser = new ApiKeyUser
+
                     {
-                        ApiKey = newKey, // Usa a chave como ID
+                        ApiKeyHash = keyHash, 
                         Name = fullName,
                         Email = email,
                         CreatedAt = DateTime.UtcNow
                     };
 
-                    // 2. Tenta inserir no banco
+                    //Tenta inserir no banco
                     await _userCollection.InsertOneAsync(newUser);
 
-                    // s Retorna a chave e sai do loop
+                    //Retorna a chave e sai do loop
                     return Ok(new { apiKey = newKey });
                 }
                 catch (MongoDB.Driver.MongoWriteException ex) when (ex.WriteError.Code == 11000)
                 {
-                    // 3. Falha por Colisão: A chave gerada já existe.
+
+                    if (ex.Message.Contains("email"))
+                    {
+                        // Se foi o e-mail, não adianta tentar de novo. Retorna erro 400 (Bad Request).
+                        return BadRequest(new { message = "Este e-mail já possui uma chave de API cadastrada." });
+                    }
+
+
+                    //A chave gerada já existe.
                     attempt++;
                     // Se for a última tentativa, joga um erro mais grave.
                     if (attempt >= MaxRetries)
@@ -65,24 +80,12 @@ namespace API_ovni.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Captura qualquer outro erro que não seja de duplicidade
+                    // Captura qualquer outro erro
                     return StatusCode(500, $"Erro inesperado durante a geração da chave: {ex.Message}");
                 }
             }
 
-            // Este ponto nunca deve ser alcançado, mas é um fallback.
             return StatusCode(500, "Erro interno de lógica de chaves.");
-        }
-
-        // Função para gerar uma chave segura
-        private string GenerateSecureApiKey(int length = 32)    
-        {
-            using (var rng = RandomNumberGenerator.Create())//usa o gerador de números aleatórios criptograficamente seguro
-            {
-                var bytes = new byte[length];//array de bytes
-                rng.GetBytes(bytes);//preenche o array com bytes aleatórios
-                return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_");//converte para base64 e substitui caracteres para URL-safe
-            }
         }
     }
 }

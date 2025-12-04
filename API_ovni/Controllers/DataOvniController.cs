@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
+using Microsoft.Extensions.Logging;
+
 namespace API_ovni.Controllers
 {
 
@@ -22,16 +24,20 @@ namespace API_ovni.Controllers
     public class OvniDataController : ControllerBase
     {
         private readonly IMongoCollection<OvniData> _ovniDataCollection;
-
-        private readonly LimpezaArmazenamentoService _limpezaArmazenamentoService;        
+        private readonly LimpezaArmazenamentoService _limpezaArmazenamentoService;
+        private readonly ILogger<OvniDataController> _logger;
         /*Construtor: 
          * Recebe o serviço de acesso ao MongoDB e inicializa a coleção para operações.*/
         public OvniDataController(
             IMongoCollection<OvniData> ovniDataCollection,
-            LimpezaArmazenamentoService limpezaArmazenamentoService)
+            LimpezaArmazenamentoService limpezaArmazenamentoService,
+            ILogger<OvniDataController> logger
+            )
         {
             _ovniDataCollection = ovniDataCollection;
             _limpezaArmazenamentoService = limpezaArmazenamentoService;
+            _logger = logger;
+
         }
 
         //pesquisa de range de Periodo ---> dia/mes/ano)
@@ -90,19 +96,19 @@ namespace API_ovni.Controllers
 
             try
             {
-                Console.WriteLine("Verificando necessidade de limpeza...");
+                _logger.LogInformation("Verificando necessidade de limpeza antes da inserção de {Count} documentos.", newOvniDataList.Count);
                 await _limpezaArmazenamentoService.Limpar(newOvniDataList.Count);
                 // Aguarda a limpeza antes de inserir novos documentos
 
-                Console.WriteLine("Inserindo documentos...");
+                _logger.LogInformation("Inserindo documentos...");
                 await _ovniDataCollection.InsertManyAsync(newOvniDataList);
-                Console.WriteLine("Inserção concluída com sucesso.");
+                _logger.LogInformation("Inserção concluída com sucesso.");
 
                 return Ok(new { message = $"{newOvniDataList.Count} documentos inseridos com sucesso." });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao inserir documentos: {ex}");
+                _logger.LogError(ex, "Erro interno ao processar a requisição de inserção.");
                 return StatusCode(500, $"Erro interno ao processar a requisição: {ex.Message}");
             }
         }

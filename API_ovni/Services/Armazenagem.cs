@@ -1,5 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using Microsoft.Extensions.Logging;
+
 // Se a classe ConfiguracaoLimpeza estiver em outra pasta, adicione o using
 // using API_ovni.Models; 
 
@@ -9,13 +11,16 @@ namespace API_ovni.Services
     {
         private readonly IMongoCollection<OvniData> _ovniDataCollection;
         private readonly IMongoCollection<ConfiguracaoLimpeza> _configCollection;
+        private readonly ILogger<LimpezaArmazenamentoService> _logger;
 
         public LimpezaArmazenamentoService(
             IMongoCollection<OvniData> ovniDataCollection,
-            IMongoCollection<ConfiguracaoLimpeza> configCollection)
+            IMongoCollection<ConfiguracaoLimpeza> configCollection,
+            ILogger<LimpezaArmazenamentoService> logger)
         {
             _ovniDataCollection = ovniDataCollection;
             _configCollection = configCollection;
+            _logger = logger;
         }
 
         // Verifica o tamanho atual da base
@@ -34,7 +39,7 @@ namespace API_ovni.Services
 
             if (config == null)
             {
-                Console.WriteLine("ERRO: Documento de configuração 'config_adsb' não encontrado.");
+                _logger.LogError("ERRO: Documento de configuração 'config_adsb' não encontrado.");
                 return;
             }
 
@@ -80,8 +85,7 @@ namespace API_ovni.Services
 
             if (tamanhoAtual >= limiteMaxBytes)
             {
-                Console.WriteLine("Limite de armazenamento atingido. Limpando registros antigos...");
-
+                _logger.LogWarning("Limite de armazenamento atingido. Limpando registros antigos (Atual: {Atual} bytes / Limite: {Limite} bytes).", tamanhoAtual, limiteMaxBytes);
                 var total = await _ovniDataCollection.CountDocumentsAsync(FilterDefinition<OvniData>.Empty);
 
                 double percentualParaRemover = Math.Max(0.1, 1.0 - percentualAlvo);
@@ -100,12 +104,12 @@ namespace API_ovni.Services
                 {
                     var filtroRemocao = Builders<OvniData>.Filter.In(x => x.Id, antigos);
                     await _ovniDataCollection.DeleteManyAsync(filtroRemocao);
-                    Console.WriteLine($"Removidos {antigos.Count} registros antigos para liberar espaço.");
+                    _logger.LogInformation("Removidos {Count} registros antigos para liberar espaço.", antigos.Count);
                 }
             }
             else
             {
-                Console.WriteLine($" Espaço OK: {tamanhoAtual} bytes / Limite {limiteMaxBytes} bytes");
+                _logger.LogInformation("Espaço OK: {Atual} bytes / Limite {Limite} bytes", tamanhoAtual, limiteMaxBytes);
             }
         }
     }

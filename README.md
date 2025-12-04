@@ -1,55 +1,165 @@
-# ADS-B Tracker API - Servidor de Rastreamento Aéreo
+#  API Ovni — ADS-B Tracker
 
-[![Powered by ASP.NET Core](https://img.shields.io/badge/Tech-ASP.NET%20Core%209-blueviolet)](https://dotnet.microsoft.com/)
-[![Database: MongoDB](https://img.shields.io/badge/Database-MongoDB-4EA94B)](https://www.mongodb.com/)
-[![Security: API Key Auth](https://img.shields.io/badge/Security-Custom%20API%20Key-orange)](https://docs.microsoft.com/en-us/aspnet/core/)
+![.NET Version](https://img.shields.io/badge/.NET-9.0-purple?style=flat&logo=dotnet)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-Este projeto em desenvolvimento é um sistema desenvolvido em **ASP.NET Core 9** e utiliza **MongoDB** para armazenar dados de rastreamento aéreo. 
-
----
-
-## Funcionalidades Principais Atuais
-
-* **Autenticação (API Key):** Sistema de segurança baseado no cabeçalho `X-Api-Key`, validado pelo `ApiKeyAuthenticationHandler`.
-* **Controle de Acesso (Roles):** Diferenciação entre privilégios **Admin** (Leitura, Escrita, Configuração) e **User** (Apenas Leitura).
-* **Gerenciamento de Armazenamento:** Rotina automática (`LimpezaArmazenamentoService`) que remove os documentos mais antigos (`OvniData`) quando o limite de **bytes** é atingido.
-* **Endpoints Seguros:** Geração de chaves públicas (`KeyRequestController`) e *endpoints* exclusivos para o Admin (`AdminController`).
+API desenvolvida em **ASP.NET Core 9** para coleta, armazenamento e análise de dados ADS-B capturados por receptores (como Raspberry Pi).  
+Projeto acadêmico com foco em **performance, segurança e arquitetura limpa**.
 
 ---
 
+##  Funcionalidades
 
-## Guia Rápido de Instalação e Uso
+###  Segurança Robusta
+- Autenticação via `X-Api-Key`
+- Hash seguro (nenhuma chave armazenada em texto plano)
 
-### 1. Requisitos
+###  RBAC — Controle de Acesso
+- **Admin:** leitura, escrita e configurações
+- **User:** somente leitura
 
-* **SDK do .NET Core 9** ou superior.
-* **MongoDB:** Uma instância rodando (local ou Atlas).
-* **Certificado HTTPS:** Confirme que o certificado de desenvolvimento está instalado (`dotnet dev-certs https`).
+###  Gestão Automática de Armazenamento
+- Serviço `LimpezaArmazenamentoService` remove voos antigos quando o tamanho máximo configurado é ultrapassado  
+  *(configuração salva no banco em `ConfiguracaoLimpeza`)*
 
-### 2. Configuração (`appsettings.json`)
+###  Alta Performance
+- Conexão com MongoDB usando Singleton
+- Índices otimizados para leituras rápidas
 
-Abra o arquivo **`appsettings.json`** e configure os parâmetros essenciais:
+###  Documentação Automática
+- Swagger totalmente integrado
 
-* **String de Conexão:** Atualize o endereço do seu servidor MongoDB.
-    ```json
-    "ConnectionStrings": {
-        "MongoDb": "mongodb://[SEU_IP_OU_HOST]/" 
-    },
-    ```
-* **Nome do Banco de Dados:** pode ser alterado aqui.
-    ```json
-    "DataBaseName": "aviao",
-    ```
-* **Chave Mestra Admin:** Confirme ou altere a chave de acesso principal.
-    ```json
-    "Authentication": {
-        "AdminApiKey": "XXXXXXXXXXX" 
+---
+
+##  Tecnologias Utilizadas
+- **Back-end:** ASP.NET Core 9 (C#)
+- **Banco:** MongoDB
+- **Documentação:** Swagger (Swashbuckle)
+- **Servidor:** Kestrel
+
+---
+
+#  Instalação e Configuração
+
+## 1. Configuração do Banco de Dados (MongoDB)
+
+### 1.1 Pré-requisitos
+- MongoDB Community Server  
+- MongoDB Compass (Recomendado)
+
+### 1.2 Instalação
+1. Baixe o **MongoDB Community Server**.
+2. Marque a opção **“Install MongoDB Compass”**.
+3. Mantenha habilitado: **“Run service as Network Service user”**.
+
+### 1.3 Criando o Banco e Coleções
+1. Abra o **MongoDB Compass**.
+2. Conecte usando: `mongodb://localhost:27017`
+
+3. Crie um Database:
+   - **`nomeBanco`**
+4. Crie as coleções:
+   - `ovniData`
+   - `apiKeys`
+   - `ConfiguracaoLimpeza`
+
+### 1.4 Script de Inicialização (Obrigatório)
+Abra o **MongoSH** e execute:
+
+```javascript
+use nomeBanco
+
+// 1. Índices de Performance e Unicidade
+db.apiKeys.createIndex({ "email": 1 }, { unique: true })
+db.ovniData.createIndex({ "data": 1 })
+
+// 2. Configuração Inicial de Limpeza (200MB)
+db.ConfiguracaoLimpeza.insertOne({
+  "_id": "config_adsb",
+  "descricao": "Configuração Padrão",
+  "limiteMaximoBytes": 209715200,
+  "percentualAlvoOcupacao": 0.9
+})
+```
+
+Exemplo de `appsettings.json`:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
     }
-    ```
-
-### 3. Como Rodar
-
-Inicie o projeto pelo terminal ou IDE:
+  },
+  "AllowedHosts": "*",
+  "MongoDBSettings": {
+    "ConnectionString": "mongodb://localhost:27017",
+    "DatabaseName": "RadarAereoDB"
+  },
+  "Authentication": {
+    "AdminApiKey": "DEFINA_SUA_CHAVE_MESTRA_AQUI"
+  }
+}
+```
 
 ```bash
+# Restaurar pacotes e dependências
+dotnet restore
+
+# Iniciar o servidor
 dotnet run
+```
+
+A API iniciará em: `https://localhost:7199`
+
+## Documentação da API
+
+Acesse o Swagger:
+
+`https://localhost:7199/swagger`
+
+Para acessar rotas protegidas no Swagger: clique em Authorize e cole sua `X-Api-Key`.
+
+## Estrutura do Banco de Dados
+
+O sistema utiliza 3 coleções principais.
+
+### 1) Coleção `ovniData` — Telemetria ADS-B
+
+Armazena dados das aeronaves:
+
+| Campo | Descrição |
+|---|---|
+| _id | ObjectId |
+| hex_id | Identificador ICAO |
+| flight | Número do voo / Callsign |
+| lat, lon | Coordenadas geográficas |
+| alt_baro | Altitude barométrica |
+| ground_speed | Velocidade |
+| data | Data/hora da captura (indexado) |
+
+### 2) Coleção `apiKeys` — Controle de Acesso
+
+| Campo | Descrição |
+|---|---|
+| _id | Hash SHA-256 da API Key |
+| email | Usuário (índice único) |
+| name | Nome completo |
+| isAdmin | Booleano |
+| createdAt | Data de criação |
+
+As API Keys não são armazenadas em texto plano.
+
+### 3) Coleção `ConfiguracaoLimpeza`
+
+Configura o comportamento automático do serviço de limpeza.
+
+| Campo | Descrição |
+|---|---|
+| _id | "config_adsb" |
+| limiteMaximoBytes | Tamanho máximo permitido |
+| percentualAlvoOcupacao | Percentual após limpeza |
+

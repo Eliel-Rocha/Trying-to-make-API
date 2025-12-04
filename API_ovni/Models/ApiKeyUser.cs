@@ -11,7 +11,8 @@ public class ApiKeyUser
 
     [BsonId]
     [BsonRepresentation(BsonType.String)]
-    public string ApiKey { get; set; } // O TOKEN ÚNICO
+    [BsonElement("apiKeyHash")]
+    public string ApiKeyHash { get; set; }
 
     [BsonElement("name")]
     public string Name { get; set; } // Nome completo do usuário
@@ -21,4 +22,7 @@ public class ApiKeyUser
 
     [BsonElement("createdAt")]
     public DateTime CreatedAt { get; set; }
+
+    
+
 }
