@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowMyFrontend",
         policy =>
         {
-            //em produção, especifique as origens permitidas
+            //em produção, especifiqcar as origens permitidas
             policy.AllowAnyOrigin() 
                   .AllowAnyHeader()
                   .AllowAnyMethod();
@@ -142,19 +142,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
-DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
-defaultFilesOptions.DefaultFileNames.Clear();
-defaultFilesOptions.DefaultFileNames.Add("html/index.html");
-app.UseDefaultFiles(defaultFilesOptions);
-app.UseStaticFiles();
-
 app.UseHttpsRedirection();
 
+// 1. ATIVAR O CORS 
+app.UseCors("AllowMyFrontend");
+
+// 2. ARQUIVOS ESTÁTICOS 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+// 3. SEGURANÇA E CONTROLLERS
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
-app.Run();
 
+app.MapControllers();
+
+app.Run();
 //esses app .Use são middlewares que processam as requisições HTTP em uma aplicação ASP.NET Core.

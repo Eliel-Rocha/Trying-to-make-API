@@ -23,6 +23,12 @@ public class ApiKeyUser
     [BsonElement("createdAt")]
     public DateTime CreatedAt { get; set; }
 
-    
+    [BsonElement("validade")]
+    public DateTime Validade { get; set; } 
+
+    [BsonElement("isActive")]
+    public bool IsActive { get; set; } = true;
+
+
 
 }

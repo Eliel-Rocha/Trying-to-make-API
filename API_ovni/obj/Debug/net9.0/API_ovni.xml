@@ -37,10 +37,5 @@
             <response code="200">Retorna a lista de avistamentos.</response>
             <response code="400">Se o formato da data for inválido.</response>
         </member>
-        <member name="M:API_ovni.Controllers.KeyRequestController.GenerateKey(API_ovni.Models.ApiKeyRequest)">
-            <summary>
-            (PÚBLICO) Gera uma nova chave de API (somente leitura)
-            </summary>
-        </member>
     </members>
 </doc>

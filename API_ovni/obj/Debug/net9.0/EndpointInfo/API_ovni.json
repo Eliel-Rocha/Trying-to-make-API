@@ -62,24 +62,7 @@
         "summary": "(ADMIN) Obtém a configuração atual de limpeza para exibir na UI.",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfiguracaoLimpeza"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfiguracaoLimpeza"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfiguracaoLimpeza"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -132,7 +115,6 @@
         "tags": [
           "KeyRequest"
         ],
-        "summary": "(PÚBLICO) Gera uma nova chave de API (somente leitura)",
         "requestBody": {
           "content": {
             "application/json": {
@@ -148,6 +130,58 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/ApiKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/KeyRequest/Validate": {
+      "get": {
+        "tags": [
+          "KeyRequest"
+        ],
+        "parameters": [
+          {
+            "name": "apiKey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/KeyRequest/Reactivate": {
+      "post": {
+        "tags": [
+          "KeyRequest"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
               }
             }
           }
@@ -280,27 +314,17 @@
   "components": {
     "schemas": {
       "ApiKeyRequest": {
-        "required": [
-          "email",
-          "firstName",
-          "lastName"
-        ],
         "type": "object",
         "properties": {
           "firstName": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "lastName": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          },
-          "usageDescription": {
             "type": "string",
             "nullable": true
           }
@@ -321,28 +345,6 @@
           "percentualAlvoOcupacao": {
             "maximum": 1,
             "minimum": 0,1,
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ConfiguracaoLimpeza": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "descricao": {
-            "type": "string",
-            "nullable": true
-          },
-          "limiteMaximoBytes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "percentualAlvoOcupacao": {
             "type": "number",
             "format": "double"
           }

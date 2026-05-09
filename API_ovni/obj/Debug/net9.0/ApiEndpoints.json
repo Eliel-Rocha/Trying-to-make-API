@@ -7,17 +7,7 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "ConfiguracaoLimpeza",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "API_ovni.Controllers.AdminController",
@@ -76,8 +66,40 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "API_ovni.Models.ApiKeyRequest",
+        "Type": "API_ovni.Controllers.ApiKeyRequest",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.KeyRequestController",
+    "Method": "ReactivateKey",
+    "RelativePath": "api/KeyRequest/Reactivate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "apiKey",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_ovni.Controllers.KeyRequestController",
+    "Method": "ValidateKey",
+    "RelativePath": "api/KeyRequest/Validate",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "apiKey",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

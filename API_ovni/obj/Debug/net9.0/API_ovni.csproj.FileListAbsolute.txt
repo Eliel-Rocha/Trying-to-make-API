@@ -44,6 +44,12 @@ C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\API_ovni.xml
 C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\API_ovni.xml
 C:\Ovni\API_ovni\API_ovni\bin\Debug\net9.0\API_ovni.staticwebassets.runtime.json
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\qaet198vzv-3r8b2a0bt1.gz
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\6aemu3w831-37vc682bwc.gz
-C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\s3ihi3r58x-saq4zjfdpv.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\7miooyt37k-s2wyq2nnm3.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\dwghbpehgm-qdr1ini7ul.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\z7qkf8atp0-8z20vebpzo.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\wv49pkgtlx-bs5vmo0it6.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\1ogyreof49-z6um5cmihm.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\h0gbng055t-gpyyn0ss85.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\7lu3663e69-s3yet25j7v.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\qas5tyz8ii-bqopo5kg96.gz
+C:\Ovni\API_ovni\API_ovni\obj\Debug\net9.0\compressed\wku7iag4wh-io6ltaok42.gz

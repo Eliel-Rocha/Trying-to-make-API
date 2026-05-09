@@ -1,0 +1,155 @@
+﻿/* Reset e Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Barra Superior Azul  */
+.top-bar {
+    background-color: #004aad;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.logo-area {
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-logout {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .btn-logout:hover {
+        background: rgba(255,255,255,0.4);
+    }
+
+
+.main-layout {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background: #f8fafc;
+    padding: 20px;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    z-index: 999;
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    color: #475569;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.btn-search {
+    background-color: #004aad;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.1s;
+}
+
+    .btn-search:hover {
+        background-color: #003380;
+        transform: translateY(-1px);
+    }
+
+    .btn-search:active {
+        transform: translateY(1px);
+    }
+
+/* Stats */
+.stats-box {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+    .stats-box h4 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        color: #004aad;
+    }
+
+    .stats-box p {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+/* Mapa */
+.map-container {
+    flex: 1; 
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    height: 100%; 
+    min-height: 400px; 
+    background: #e2e8f0;
+    z-index: 1;
+}
+/* Botão de Download */
+.btn-download {
+    background-color: #10b981; 
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.1s, background-color 0.2s;
+    width: 100%; /* Ocupa a largura toda */
+}
+
+    .btn-download:hover:not(:disabled) {
+        background-color: #059669; 
+        transform: translateY(-1px);
+    }
+
+    .btn-download:disabled {
+        background-color: #cbd5e1; 
+        cursor: not-allowed;
+        color: #64748b;
+    }
+
+    /*fazer uma tabela de cores seria legal*/

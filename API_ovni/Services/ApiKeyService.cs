@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
+// Esta classe é responsável por gerar chaves de API seguras e hasheá-las para armazenamento seguro no banco de dados. Ela é utilizada tanto no processo de geração de chaves (cadastro) quanto na validação de chaves (login) para garantir que as chaves sejam únicas, seguras e não possam ser revertidas a partir do hash armazenado.
 namespace API_ovni.Services
 {    public class ApiKeyService
     {

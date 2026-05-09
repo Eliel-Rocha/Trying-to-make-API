@@ -2,7 +2,6 @@
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
 
-// Se a classe ConfiguracaoLimpeza estiver em outra pasta, adicione o using
 // using API_ovni.Models; 
 
 namespace API_ovni.Services
@@ -24,7 +23,7 @@ namespace API_ovni.Services
         }
 
         // Verifica o tamanho atual da base
-        private async Task<long> ObterTamanhoAtualAsync()
+        public async Task<long> ObterTamanhoAtualAsync()
         {
             var stats = await _ovniDataCollection.Database.RunCommandAsync<BsonDocument>(new BsonDocument("collStats", _ovniDataCollection.CollectionNamespace.CollectionName));
             return stats["size"].ToInt64(); 

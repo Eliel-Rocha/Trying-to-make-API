@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
 // Esta classe é o controller para operações administrativas, como gerar chaves de API para usuários.
+
 namespace API_ovni.Controllers
 {
     [Route("api/[controller]")]
@@ -65,7 +66,10 @@ namespace API_ovni.Controllers
                         Name = name,
                         Email = email,
                         CreatedAt = DateTime.UtcNow,
-                        IsAdmin = grantAdmin
+                        IsAdmin = grantAdmin,
+
+                        Validade = DateTime.UtcNow.AddYears(1), // Admin dá 1 ano de validade
+                        IsActive = true
                     };
 
                     await _userCollection.InsertOneAsync(newUser);
@@ -87,6 +91,10 @@ namespace API_ovni.Controllers
                     {
                         return StatusCode(500, "Erro crítico: Falha ao gerar chave de API única após múltiplas tentativas.");
                     }
+                    if (ex.WriteError.Message.Contains("email"))
+                    {
+                        return BadRequest(new { message = "Este e-mail já está cadastrado em outra chave." });
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -102,18 +110,40 @@ namespace API_ovni.Controllers
         /// <summary>
         /// (ADMIN) Obtém a configuração atual de limpeza para exibir na UI.
         /// </summary>
+        
+
         [HttpGet("ConfiguracaoLimpeza")]
-        public async Task<ActionResult<ConfiguracaoLimpeza>> GetLimpezaConfig()
+        public async Task<IActionResult> GetLimpezaConfig()
         {
-            // Busca o documento de configuração pelo ID fixo
+            // Busca Configuração
             var config = await _configCollection.Find(x => x.Id == "config_adsb").FirstOrDefaultAsync();
 
             if (config == null)
             {
-                return NotFound(new { message = "Configuração de Limpeza não encontrada. Crie o documento 'config_adsb' manualmente." });
+                // Se não existir
+                config = new ConfiguracaoLimpeza { LimiteMaximoBytes = 104857600, PercentualAlvoOcupacao = 0.7 };
             }
-            // Retorna o objeto completo de configuração
-            return Ok(config);
+
+            // Busca Tamanho Atual 
+            long bytesAtuais = await _limpezaService.ObterTamanhoAtualAsync();
+
+            // Calcula Porcentagem Usada
+            double usoPorcentagem = 0;
+            if (config.LimiteMaximoBytes > 0)
+            {
+                usoPorcentagem = (double)bytesAtuais / config.LimiteMaximoBytes * 100;
+            }
+
+            // Retorna tudo num objeto combinado
+            return Ok(new
+            {
+                config = config,
+                status = new
+                {
+                    bytesAtuais = bytesAtuais,
+                    usoPorcentagem = Math.Round(usoPorcentagem, 2) // Arredonda para 2 casas decimais
+                }
+            });
         }
 
         /// <summary>

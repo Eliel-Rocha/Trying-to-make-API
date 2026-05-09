@@ -1,0 +1,185 @@
+﻿/* =========================
+   RESET
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+.top-bar {
+    background-color: #004aad;
+    min-height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* =========================
+   CONTEÚDO CENTRAL
+========================= */
+.center-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 50px 20px 100px;
+    text-align: center;
+    width: 100%;
+}
+
+/* =========================
+   LOGO
+========================= */
+.logo-area {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-logo {
+    max-width: 350px;
+    width: 80%;
+    height: auto;
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    background-color: #f8fafc;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+    input:focus {
+        border-color: #004aad;
+        background-color: #ffffff;
+    }
+
+.row-inputs {
+    display: flex;
+    gap: 15px;
+}
+
+/* =========================
+   BOTÕES (SEM HEIGHT FIXA)
+========================= */
+button {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+}
+
+/* Botão principal */
+.btn-action {
+    background-color: #004aad;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 74, 173, 0.2);
+}
+
+    .btn-action:hover {
+        background-color: #003380;
+        transform: translateY(-1px);
+    }
+
+/* Botão secundário */
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+    .btn-secondary:hover {
+        background-color: #cbd5e1;
+        color: #1e293b;
+        transform: translateY(-1px);
+    }
+
+/* =========================
+   DIVISOR
+========================= */
+.divider {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin: 8px 0;
+}
+
+/* =========================
+   FEEDBACK
+========================= */
+.feedback-msg {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    min-height: 20px;
+    color: #004aad;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* =========================
+   FOOTER LOGO (ESTÁVEL NO ZOOM)
+========================= */
+.footer-logo {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    z-index: 10;
+}
+
+    .footer-logo img {
+        max-height: 90px;
+        width: auto;
+        opacity: 0.85;
+        transition: opacity 0.3s;
+    }
+
+        .footer-logo img:hover {
+            opacity: 1;
+        }

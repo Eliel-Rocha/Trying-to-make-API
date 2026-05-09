@@ -88,21 +88,60 @@ namespace API_ovni.Controllers
         //recebe uma lista de objetos OvniData no corpo da requisição e insere todos na coleção MongoDB.
 
         [HttpPost("InserirDocumento")]
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize]
         public async Task<ActionResult> InsertBatch([FromBody] List<OvniData> newOvniDataList)
         {
+            string nomeDoUsuario = User.Identity.Name ?? "Desconhecido";
+
+            // --- RELATÓRIO---
+            _logger.LogInformation(">>> RECEBIDO LOTE DE DADOS <<<");
+            _logger.LogInformation("Quem mandou: {Usuario}", nomeDoUsuario);
+            _logger.LogInformation("Quantidade: {Qtd} aviões", newOvniDataList?.Count ?? 0);
+            _logger.LogInformation("------------------------------");
+
             if (newOvniDataList == null || !newOvniDataList.Any())
                 return BadRequest("A lista de documentos não pode ser nula ou vazia.");
 
             try
             {
+
+                foreach (var item in newOvniDataList)
+                {
+                    item.Data = new DateTime(
+                        item.Data.Year, item.Data.Month, item.Data.Day,
+                        item.Data.Hour, item.Data.Minute, item.Data.Second,
+                        DateTimeKind.Utc
+                    );
+
+                    item.Id = null;
+                }
+
                 _logger.LogInformation("Verificando necessidade de limpeza antes da inserção de {Count} documentos.", newOvniDataList.Count);
                 await _limpezaArmazenamentoService.Limpar(newOvniDataList.Count);
                 // Aguarda a limpeza antes de inserir novos documentos
 
                 _logger.LogInformation("Inserindo documentos...");
-                await _ovniDataCollection.InsertManyAsync(newOvniDataList);
-                _logger.LogInformation("Inserção concluída com sucesso.");
+                var insertOptions = new InsertManyOptions { IsOrdered = false };
+
+                try
+                {
+                    await _ovniDataCollection.InsertManyAsync(newOvniDataList, insertOptions);
+                    _logger.LogInformation("Inserção concluída com sucesso.");
+                }
+                catch (MongoBulkWriteException<OvniData> ex)
+                {
+                    long inseridosSucesso = ex.Result.InsertedCount;
+                    long duplicadosIgnorados = ex.WriteErrors.Count;
+
+                    _logger.LogWarning("Lote processado. Inseridos: {Success}, Duplicados/Ignorados: {Ignored}", inseridosSucesso, duplicadosIgnorados);
+
+                    return Ok(new
+                    {
+                        message = "Processamento concluído.",
+                        inseridos = inseridosSucesso,
+                        duplicados = duplicadosIgnorados
+                    });
+                }
 
                 return Ok(new { message = $"{newOvniDataList.Count} documentos inseridos com sucesso." });
             }
