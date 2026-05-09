@@ -138,8 +138,17 @@ Armazena dados das aeronaves:
 | flight | Número do voo / Callsign |
 | lat, lon | Coordenadas geográficas |
 | alt_baro | Altitude barométrica |
+| alt_geom	| Altitude geométrica (GPS) |
 | ground_speed | Velocidade |
+| indicated_air_speed |	Velocidade indicada (IAS) |
+| true_air_speed	| Velocidade real (TAS) |
+| squawk	| Código Squawk (identificação) |
+| track	| Direção / Rumo em graus |
+| emergency	| Estado de alerta ou emergência |
 | data | Data/hora da captura (indexado) |
+
+
+
 
 ### 2) Coleção `apiKeys` — Controle de Acesso
 
